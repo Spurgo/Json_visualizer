@@ -19,7 +19,7 @@ struct DataType;
 using JsonArray = vector<DataType>;
 using JsonObject = map<string, DataType>;
 
-using NestedJsonArray = unique_ptr<JsonArray>;
+using NestedJsonArray = unique_ptr<JsonArray>; //utilizzo unique pointer per interrompere la catenza di dipendenze  tra JsonArray/Object e la struct data
 using NestedJsonObject = unique_ptr<JsonObject>;
 
 struct DataType
@@ -75,6 +75,8 @@ class JsonParser{
         void printing_test(){
             cout << file_content.rdbuf() << endl;
         }
+        //ok test funzionante
+        //ora prossima cosa da fare, usare funzioni isspace, .get() e .peak() per consumare e scorrere i caratteri
 };
 
 int main(){
