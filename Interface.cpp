@@ -43,6 +43,16 @@ class JsonParser{
         string file_json_dir; //directory file 
         ifstream file_input; //file
         stringstream file_content; //contenuto json 
+
+        void value_parsing(){
+            //.peak() per verificare carattere successivo
+            //.isspace() per verificare se carattere attuale è spazio
+            //.get() per ottenere carattere attuale
+
+            char next_ch = file_content.peek();
+            cout<< next_ch << endl;
+        }
+
     public:
         //costruttore
         JsonParser(const string& path) : file_json_dir(path){
@@ -57,7 +67,6 @@ class JsonParser{
             else{
                 cout << "File aperto correttamente" << endl;
                 file_content << file_input.rdbuf(); //intero contenuto del file json all'interno del buffer. stringa da analizzare per capire struttura del file
-                cout << file_content.str() << endl; //print di conferma apertura corretta
             }
         }
 
@@ -72,17 +81,20 @@ class JsonParser{
         // se [ allora inizio array 
         // se { allora oggetto, quindi usare map con chiave valore
 
-        void printing_test(){
-            cout << file_content.rdbuf() << endl;
+        //ora prossima cosa da fare, usare funzioni isspace, .get() e .peek() per consumare e scorrere i caratteri
+        //necessario cercare di fare il parsing solo di n blocco di dati all'interno del json, evitando di scorrerlo per intero dato che mi interessa la struttura 
+        //e non il contenuto effettivo del file 
+
+        void json_parser(){
+            value_parsing();
         }
-        //ok test funzionante
-        //ora prossima cosa da fare, usare funzioni isspace, .get() e .peak() per consumare e scorrere i caratteri
+        
 };
 
 int main(){
 
     // il nostro file
     JsonParser jsonParser("/home/tullio/Desktop/C++/jsonGraphics/funny.json");
-    jsonParser.printing_test();
+    jsonParser.json_parser();
     return 0;
 }
