@@ -46,11 +46,31 @@ class JsonParser{
 
         void value_parsing(){
             //.peak() per verificare carattere successivo
-            //.isspace() per verificare se carattere attuale è spazio
+            //isspace() per verificare se carattere attuale è spazio
             //.get() per ottenere carattere attuale
 
             char next_ch = file_content.peek();
-            cout<< next_ch << endl;
+            if(next_ch == '{'){
+                file_content.get();
+                object_parsing();
+            } 
+            else if(next_ch == '['){
+                array_parsing();
+            }
+        }
+
+        void object_parsing(){
+            cout << "object parsing called" << endl;
+            char nxt = file_content.peek();
+            while(isspace(nxt)){ //consumo tutti gli spazi bianchi presenti fino al raggiungimento del carattere
+                file_content.get();
+                nxt = file_content.peek();
+            }
+            cout << nxt << endl;
+        }
+
+        void array_parsing(){
+            cout << "array parsing called" << endl;
         }
 
     public:
