@@ -6,14 +6,9 @@
 #include <map>
 #include <vector>
 #include <memory> //serve per smartpointer
+//commento per test
 
 using namespace std;
-
-//apro file json non importa come
-//parso il file
-//cercare parentesi e suddivisioni 
-//prendere i nomi delle classi
-//merda grafica
 
 struct DataType;
 using JsonArray = vector<DataType>;
@@ -50,15 +45,25 @@ class JsonParser{
                 file_content.get();
                 nxt = file_content.peek();
             }
-            cout << nxt << endl;
+            //cout << "skip_space() nxt = " << nxt << endl;
         }
 
         string parse_string(){
-            return "";
+            char curr = file_content.peek();
+            string s;
+            //cout << "parse_string() curr = " << curr << endl;
+            if(curr == '"' || curr == ',' || curr == ':'){
+                skip_char();
+            }
+            if(curr == '{' || curr == '['){
+                value_parsing();
+            }
+            getline(file_content, s, '"');
+            return s;
         }
 
         void skip_char(){
-            
+            file_content.get();
         }
 
         void value_parsing(){
@@ -77,10 +82,16 @@ class JsonParser{
         }
 
         void object_parsing(){
-            cout << "object parsing called" << endl;
             skip_space();
             string key = parse_string();
-
+            skip_char();
+            skip_space();
+            string value = parse_string();
+            cout << key << ", " << value << endl;
+            if (file_content.peek() == ','){
+                file_content.get();
+                object_parsing();
+            }
         }
 
         void array_parsing(){
@@ -96,7 +107,7 @@ class JsonParser{
             if(file_input.bad()){ //serve a verificare non ci siano errori in lettura
                 cout << "Errore in lettura del file Dio Maiale" << endl;
             }
-            else if(!file_input.is_open()){ //verificare se file aperto correttamente
+            else if(!file_input.is_open()){ //verifica se file aperto correttamente
                 cout << "File non aperto correttamente" << endl;
             }
             else{
@@ -111,14 +122,6 @@ class JsonParser{
             file_json_dir = ""; //pulizia directory
             cout << "File chiuso correttamente e dati puliti" << endl;
         }
-
-        //funzioni per analizzare il file
-        // se [ allora inizio array 
-        // se { allora oggetto, quindi usare map con chiave valore
-
-        //ora prossima cosa da fare, usare funzioni isspace, .get() e .peek() per consumare e scorrere i caratteri
-        //necessario cercare di fare il parsing solo di n blocco di dati all'interno del json, evitando di scorrerlo per intero dato che mi interessa la struttura 
-        //e non il contenuto effettivo del file 
 
         void json_parser(){
             value_parsing();
