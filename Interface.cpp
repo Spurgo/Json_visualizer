@@ -40,63 +40,27 @@ class JsonParser{
         stringstream file_content; //contenuto json 
 
         void skip_space(){
-            char nxt = file_content.peek();
-            while(isspace(nxt)){ //consumo tutti gli spazi bianchi presenti fino al raggiungimento del carattere
-                file_content.get();
-                nxt = file_content.peek();
-            }
-            //cout << "skip_space() nxt = " << nxt << endl;
+            
         }
 
         string parse_string(){
-            char curr = file_content.peek();
-            string s;
-            //cout << "parse_string() curr = " << curr << endl;
-            if(curr == '"' || curr == ',' || curr == ':'){
-                skip_char();
-            }
-            if(curr == '{' || curr == '['){
-                value_parsing();
-            }
-            getline(file_content, s, '"');
-            return s;
+            
         }
 
         void skip_char(){
-            file_content.get();
+            
         }
 
         void value_parsing(){
-            //.peak() per verificare carattere successivo
-            //isspace() per verificare se carattere attuale è spazio
-            //.get() per ottenere carattere attuale
-
-            char next_ch = file_content.peek();
-            if(next_ch == '{'){
-                file_content.get();
-                object_parsing();
-            } 
-            else if(next_ch == '['){
-                array_parsing();
-            }
+           
         }
 
         void object_parsing(){
-            skip_space();
-            string key = parse_string();
-            skip_char();
-            skip_space();
-            string value = parse_string();
-            cout << key << ", " << value << endl;
-            if (file_content.peek() == ','){
-                file_content.get();
-                object_parsing();
-            }
+            
         }
 
         void array_parsing(){
-            cout << "array parsing called" << endl;
-            skip_space();
+            
         }
 
     public:
